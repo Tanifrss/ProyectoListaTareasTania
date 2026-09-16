@@ -1,3 +1,4 @@
+```c++
 #include <iostream>
 
 #include <vector>
@@ -113,3 +114,4 @@ void completarTarea(vector<Tarea>& tareas) {
     cout << "Tarea completada correctamente " <<endl;
     
 }
+```
