@@ -1,5 +1,7 @@
 #include <iostream>
+
 #include <vector>
+
 #include <string>
 
 using namespace std;
@@ -106,4 +108,8 @@ void completarTarea(vector<Tarea>& tareas) {
         cout << "Tarea invalida ";
         return;
     }
+    
+    tareas [numeroTarea -1].completada = true;
+    cout << "Tarea completada correctamente " <<endl;
+    
 }
