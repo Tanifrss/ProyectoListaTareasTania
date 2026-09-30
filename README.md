@@ -1,16 +1,19 @@
-```c++
+```
+C++
 #include <iostream>
 #include <vector>
 #include <string>
 
 using namespace std;
 
+// Estructura que representa una tarea
 struct Tarea {
     string descripcion;
     bool completada;
     string prioridad; // Alta, Media, Baja
 };
 
+// Prototipos de funciones
 void agregarTarea(vector<Tarea>& tareas);
 void mostrarTareas(const vector<Tarea>& tareas);
 void completarTarea(vector<Tarea>& tareas);
@@ -57,6 +60,7 @@ int main() {
     return 0;
 }
 
+// Agrega una nueva tarea al vector
 void agregarTarea(vector<Tarea>& tareas) {
     Tarea nuevaTarea;
     cout << "Ingrese la tarea: ";
@@ -79,6 +83,7 @@ void agregarTarea(vector<Tarea>& tareas) {
     cout << "Tarea agregada correctamente.\n";
 }
 
+// Muestra todas las tareas registradas
 void mostrarTareas(const vector<Tarea>& tareas) {
     if (tareas.empty()) {
         cout << "\nNo hay tareas en la lista.\n";
@@ -91,6 +96,7 @@ void mostrarTareas(const vector<Tarea>& tareas) {
     }
 }
 
+// Marca una tarea como completada
 void completarTarea(vector<Tarea>& tareas) {
     if (tareas.empty()) {
         cout << "\nNo hay tareas registradas para completar.\n";
@@ -108,4 +114,5 @@ void completarTarea(vector<Tarea>& tareas) {
     }
     cin.ignore();
 }
+
 ```
