@@ -1,28 +1,23 @@
 ```c++
 #include <iostream>
-
 #include <vector>
-
 #include <string>
 
 using namespace std;
 
-// Estructura que representa una tarea
 struct Tarea {
     string descripcion;
     bool completada;
+    string prioridad; // Alta, Media, Baja
 };
 
-// Prototipos
 void agregarTarea(vector<Tarea>& tareas);
-
 void mostrarTareas(const vector<Tarea>& tareas);
-
-// void completarTarea(vector<Tarea>& tareas);
+void completarTarea(vector<Tarea>& tareas);
 
 int main() {
     vector<Tarea> tareas;
-    int opcion;
+    int opcion = 0;
 
     while (opcion != 4) {
         cout << "\nLISTA DE TAREAS\n\n";
@@ -32,7 +27,12 @@ int main() {
         cout << "4. Salir\n\n";
         cout << "Seleccione una opción: ";
 
-        cin >> opcion;
+        if (!(cin >> opcion)) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Opción no válida.\n";
+            continue;
+        }
         cin.ignore();
 
         switch (opcion) {
@@ -43,7 +43,7 @@ int main() {
                 mostrarTareas(tareas);
                 break;
             case 3:
-                // completarTarea(tareas);
+                completarTarea(tareas);
                 break;
             case 4:
                 cout << "Saliendo del programa...\n";
@@ -57,61 +57,55 @@ int main() {
     return 0;
 }
 
-// Agrega una nueva tarea al vector
 void agregarTarea(vector<Tarea>& tareas) {
-    Tarea nueva;
-    
+    Tarea nuevaTarea;
     cout << "Ingrese la tarea: ";
-    getline(cin, nueva.descripcion);
+    getline(cin, nuevaTarea.descripcion);
     
-    if (nueva.descripcion ==""){
-        cout <<"La tarea no puede estar vacía";
-        return;
+    int opcPrioridad = 0;
+    cout << "Seleccione la prioridad (1. Alta, 2. Media, 3. Baja): ";
+    cin >> opcPrioridad;
+    cin.ignore();
+
+    switch (opcPrioridad) {
+        case 1: nuevaTarea.prioridad = "Alta"; break;
+        case 2: nuevaTarea.prioridad = "Media"; break;
+        case 3: nuevaTarea.prioridad = "Baja"; break;
+        default: nuevaTarea.prioridad = "Media"; break;
     }
-    
-    nueva.completada = false;
-    
-    tareas.push_back(nueva);
-    cout << ("Nueva tarea añadida correctamente");
+
+    nuevaTarea.completada = false;
+    tareas.push_back(nuevaTarea);
+    cout << "Tarea agregada correctamente.\n";
 }
 
-// Muestra todas las tareas
 void mostrarTareas(const vector<Tarea>& tareas) {
- cout << "\nTAREAS\n\n";
- 
-    for (int i=0; i <tareas.size(); i++){
-        // Numero. [estado] descripcion
-        cout << i+1 << ".";
-        
-        if (tareas[i].completada==true){
-            cout<< "[Completado]";
-        } else {
-            cout << "[Pendiente]";
-        }
-        
-        cout <<tareas[i].descripcion << endl;
-     }
-         
-}
-
-// Marca una tarea como completada
-void completarTarea(vector<Tarea>& tareas) {
-    //Imprimir tareas 
-    mostrarTareas (tareas);
-    
-    // Cambiar tarea.completada a true
-    //Numero de tarea a completar?
-    int numeroTarea;
-    cout << "Seleccione la tarea completada: ";
-    cin >> numeroTarea;
-    
-    if (numeroTarea < 1 or numeroTarea > tareas.size()){
-        cout << "Tarea invalida ";
+    if (tareas.empty()) {
+        cout << "\nNo hay tareas en la lista.\n";
         return;
     }
-    
-    tareas [numeroTarea -1].completada = true;
-    cout << "Tarea completada correctamente " <<endl;
-    
+    cout << "\nTAREAS\n";
+    for (size_t i = 0; i < tareas.size(); ++i) {
+        string estado = tareas[i].completada ? "Completada" : "Pendiente";
+        cout << (i + 1) << ". [" << estado << "] [" << tareas[i].prioridad << "] " << tareas[i].descripcion << "\n";
+    }
+}
+
+void completarTarea(vector<Tarea>& tareas) {
+    if (tareas.empty()) {
+        cout << "\nNo hay tareas registradas para completar.\n";
+        return;
+    }
+
+    mostrarTareas(tareas);
+    cout << "\nSeleccione la tarea: ";
+    int indice;
+    if (cin >> indice && indice >= 1 && indice <= static_cast<int>(tareas.size())) {
+        tareas[indice - 1].completada = true;
+        cout << "Tarea marcada como completada.\n";
+    } else {
+        cout << "Opción no válida.\n";
+    }
+    cin.ignore();
 }
 ```
